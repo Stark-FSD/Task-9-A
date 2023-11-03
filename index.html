@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Calculator</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        #calculator {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f2f2f2;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .btn-calculator {
+            width: 75px;
+            height: 75px;
+            font-size: 24px;
+        }
+
+        #display {
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body>
+    <div id="calculator" class="container">
+        <h2>Calculator</h2>
+        <input type="text" id="display" class="form-control" placeholder="0">
+        <div class="btn-group">
+            <button class="btn btn-primary btn-calculator" onclick="appendToDisplay('1')">1</button>
+            <button class="btn btn-primary btn-calculator" onclick="appendToDisplay('2')">2</button>
+            <button class="btn btn-primary btn-calculator" onclick="appendToDisplay('3')">3</button>
+            <button class="btn btn-danger btn-calculator" onclick="calculate('+')">+</button>
+        </div>
+        <br>
+        <div class="btn-group">
+            <button class="btn btn-primary btn-calculator" onclick="appendToDisplay('4')">4</button>
+            <button class="btn btn-primary btn-calculator" onclick="appendToDisplay('5')">5</button>
+            <button class="btn btn-primary btn-calculator" onclick="appendToDisplay('6')">6</button>
+            <button class="btn btn-danger btn-calculator" onclick="calculate('-')">-</button>
+        </div>
+        <br>
+        <div class="btn-group">
+            <button class="btn btn-primary btn-calculator" onclick="appendToDisplay('7')">7</button>
+            <button class="btn btn-primary btn-calculator" onclick="appendToDisplay('8')">8</button>
+            <button class="btn btn-primary btn-calculator" onclick="appendToDisplay('9')">9</button>
+            <button class="btn btn-danger btn-calculator" onclick="calculate('*')">*</button>
+        </div>
+        <br>
+        <div class="btn-group">
+            <button class="btn btn-primary btn-calculator" onclick="appendToDisplay('0')">0</button>
+            <button class="btn btn-primary btn-calculator" onclick="appendToDisplay('.')">.</button>
+            <button class="btn btn-danger btn-calculator" onclick="calculate('/')">/</button>
+            <button class="btn btn-danger btn-calculator" onclick="calculate('%')">%</button>
+        </div>
+        <br>
+        <button class="btn btn-success btn-calculator" onclick="clearDisplay()">C</button>
+        <button class="btn btn-success btn-calculator" onclick="calculateResult()">=</button>
+    </div>
+
+    <script>
+        let display = document.getElementById("display");
+        let currentInput = "";
+
+        function appendToDisplay(value) {
+            currentInput += value;
+            display.value = currentInput;
+        }
+
+        function clearDisplay() {
+            currentInput = "";
+            display.value = "0";
+        }
+
+        function calculate(operator) {
+            currentInput += operator;
+            display.value = currentInput;
+        }
+
+        function calculateResult() {
+            try {
+                currentInput = eval(currentInput);
+                display.value = currentInput;
+            } catch (error) {
+                alert("Invalid expression");
+                clearDisplay();
+            }
+        }
+
+        document.addEventListener("keydown", function (event) {
+            if (event.key.match(/[0-9.]/)) {
+                appendToDisplay(event.key);
+            } else if (event.key.match(/[-+*/%]/)) {
+                calculate(event.key);
+            } else if (event.key === "Enter") {
+                calculateResult();
+            } else {
+                alert("Only numbers and operators (+, -, *, /, %) are allowed");
+            }
+        });
+    </script>
+</body>
+</html>
